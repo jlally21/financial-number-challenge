@@ -1,23 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import { InputPage, OutputPage } from "./pages";
+import {
+  FinancialNumberContext,
+  FinancialNumberRepresentation,
+  financialNumberRepresentationDefaultValue,
+} from "./utils/FinancialNumberContext";
 
 function App() {
+  const [financialNumberRepresentation, setFinancialNumberRepresentation] =
+    useState<FinancialNumberRepresentation>(
+      financialNumberRepresentationDefaultValue
+    );
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <FinancialNumberContext.Provider
+          value={{
+            financialNumberRepresentation,
+            setFinancialNumberRepresentation,
+          }}
         >
-          Learn React
-        </a>
+          <Routes>
+            <Route path="/" element={<InputPage />} />
+            <Route path="/output" element={<OutputPage />} />
+            <Route path="*" element={<div>Not Found</div>} />
+          </Routes>
+        </FinancialNumberContext.Provider>
       </header>
     </div>
   );
